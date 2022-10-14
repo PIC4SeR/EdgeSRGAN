@@ -1,9 +1,13 @@
+google_api_python_client==2.64.0
 joblib==1.1.0
+lpips==0.1.4
 matplotlib==3.5.2
 numpy==1.23.1
 opencv_python==4.6.0.66
 optuna==2.10.1
 Pillow==9.2.0
+protobuf==4.21.7
 PyYAML==6.0
 scipy==1.8.1
 tensorflow==2.9.1
+torch==1.12.0+cu116
