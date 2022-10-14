@@ -1,0 +1,127 @@
+#---- GENERAL
+MODE: 'GAN'
+HP_SEARCH: True
+DISTILLATION: 'BRKD'
+DISC_DISTILLATION: False
+CHECKPOINT: True
+
+MODEL_NAME: 'tiny_brkd_64'
+MODEL_SIZE: 'tiny'
+
+PSNR_MODEL: 'best_tiny_64'
+
+TEACHER_NAME: 'gan_generator_gridsearch_2022-07-26_16_43_06.2346946.h5'
+TEACHER_SIZE: 'small'
+
+HP_SEARCH_NAME: 'tiny_brkd_gan'
+N_TRIALS: 32
+
+GPU_MEMORY: 6000
+VERBOSE: True
+
+
+#---- PATHS
+ROOT_DIR: './'
+DATA_DIR: 'dataset/div2k/'
+WEIGHTS_DIR: 'weights/srgan/'
+LOG_DIR: 'log/'
+HP_SEARCH_DIR: 'grid_search/'
+
+
+#---- DATASET
+SCALE: 4
+PATCH_SIZE: [96,96]
+CHANNELS: 3
+RANDOM_CROP: True
+TRANSFORMS: True
+RANDOM_JPEG: False
+
+
+#---- MODEL
+tiny:        
+    BLOCKS: 4
+    FILTERS: 64
+    BATCH_NORM: False
+    UPSAMPLING: 'TransposeConv'
+    ACTIVATION: 'relu'
+    DIST_LAYERS: [4]
+    DISC_FILTERS: [32,8,4]
+    DISC_BOTTLENECK: 'Flatten'
+    DISC_HEAD: 256
+    DISC_ACT: 'sigmoid'
+    BIG_DISC: False
+    
+small:    
+    BLOCKS: 8
+    FILTERS: 64
+    BATCH_NORM: False
+    UPSAMPLING: 'TransposeConv'
+    ACTIVATION: 'relu'
+    DIST_LAYERS: [8]
+    DISC_FILTERS: [32,8,4]
+    DISC_BOTTLENECK: 'Flatten'
+    DISC_HEAD: 1024
+    DISC_ACT: 'sigmoid'
+    BIG_DISC: True
+
+base:
+    BLOCKS: 16
+    FILTERS: 64
+    BATCH_NORM: False
+    UPSAMPLING: 'TransposeConv'
+    ACTIVATION: 'relu'
+    DIST_LAYERS: [2,12,16]
+    DISC_FILTERS: [64,16,8]
+    DISC_BOTTLENECK: 'Flatten'
+    DISC_HEAD: 1024
+    DISC_ACT: 'sigmoid'
+    BIG_DISC: True
+
+large:
+    BLOCKS: 16
+    FILTERS: 128
+    BATCH_NORM: False
+    UPSAMPLING: 'TransposeConv'
+    ACTIVATION: 'relu'
+    DIST_LAYERS: [2,12,16]
+    DISC_FILTERS: [64,16,8]
+    DISC_BOTTLENECK: 'Flatten'
+    DISC_HEAD: 1024
+    DISC_ACT: 'sigmoid'
+    BIG_DISC: True
+
+#---- TRAINING SETTINGS 
+PSNR:
+    METRIC: 'PSNR'
+    OUT_LOSS: 'MAE'
+    LR: 1e-4
+    SCHEDULER: 'Constant'
+    EXP_DECAY: 0.01
+    LIN_DECAY: 0.1
+    STEPS: 500000
+    BATCH_SIZE: 16
+    EVAL_EVERY: 5000
+    
+    LAMBDA: 0.1
+    FEAT_WEIGHT: 1
+    TASK_WEIGHT: 1
+GAN:
+    METRIC: 'LPIPS'
+    OUT_LOSS: 'MAE'
+    LR: 1e-4
+    SCHEDULER: 'Step'
+    EXP_DECAY: 0.01
+    LIN_DECAY: 0.1
+    STEPS: 100000
+    BATCH_SIZE: 16
+    EVAL_EVERY: 2000
+    
+    ALPHA: 0.001
+    GP_WEIGHT: 0.0
+    PERC_MODEL: 'VGG54'
+    
+    DISC_OPT: 'Adam'
+
+    LAMBDA: 0.1
+    FEAT_WEIGHT: 1
+    TASK_WEIGHT: 1
