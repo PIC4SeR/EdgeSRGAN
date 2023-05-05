@@ -79,9 +79,12 @@ def generator(scale=4, num_filters=64, num_res_blocks=16, shape=(None,None,3), b
     x = x_1 = get_activation(activation)(x)
         
     for _ in range(num_res_blocks):
-        x, feats = res_block(x, num_filters, activation=activation, batch_norm=batch_norm, return_features=return_features)
-        features.append(feats)
-
+        if True:
+            x, feats = res_block(x, num_filters, activation=activation, batch_norm=batch_norm, return_features=True)
+            features.append(feats)
+        else:
+            x = res_block(x, num_filters, activation=activation, batch_norm=batch_norm, return_features=return_features)
+            
     x = tf.keras.layers.Conv2D(num_filters, kernel_size=3, padding='same')(x)
     
     if batch_norm:
@@ -94,7 +97,7 @@ def generator(scale=4, num_filters=64, num_res_blocks=16, shape=(None,None,3), b
         x = upsample_pix(x, num_filters * 4)
         x = tf.keras.layers.Conv2D(3, kernel_size=9, padding='same', activation='tanh')(x)
         
-    else:
+    elif upsampling == 'TransposeConv':
         x = upsample(x, num_filters=num_filters, upsample=upsampling, scale=scale//2, activation=activation)
         x = upsample(x, num_filters=shape[-1], upsample=upsampling, scale=2, activation='tanh')
     

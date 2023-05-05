@@ -46,10 +46,12 @@
 #     ((i=i+1))
 # done
 
-i=96
-for model in 'gan_generator_gridsearch_2022-10-05_23:53:52.1912986.h5' #'tiny' 'small' 'base' 'pix'
+
+
+i=111
+for model in 'gan_generator_small_ablation_3_batchnorm_new.h5'
 do
-    for type in 'pre' #'pre' 'gan'
+    for type in 'gan'
     do
         echo '' >> result_log.txt
         echo $model $type $i >> result_log.txt
@@ -60,7 +62,6 @@ do
                            --dataset_lr /media/Datasets/super-resolution/${DATASET}/LR_bicubic \
                            --model ${model} --train_type $type --excel_row $i          
         done
-        ((i=i+1))
     done
 done
 

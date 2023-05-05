@@ -60,33 +60,20 @@ def main():
     calculate_lpips = LPIPS(net='alex', verbose=False).cuda()
     
     config = read_yaml('config.yaml')
-    
-    if args.model=='pix':
-        model_size = 'small'
-        weights = f'weights/srgan/{args.train_type}_generator_small_pix.h5'
-        config['small']['UPSAMPLING'] = 'PixelShuffle'
-    elif args.model in {'tiny', 'small', 'base'}:
-        model_size = args.model
-        weights = f'weights/srgan/{args.train_type}_generator_{args.model}.h5'
-        config['small']['UPSAMPLING'] = 'TransposeConv'
-    else:
-        weights = f'weights/srgan/{args.model}'
-        model_size = 'base' if 'base' in weights else 'tiny' ################################################################
-        config[model_size]['UPSAMPLING'] = 'TransposeConv'
-        
+
+    weights = f'weights/srgan/{args.model}'
       
     config['MODE'] = 'TEST'
-    config['SCALE'] = args.scale
-    config['MODEL_SIZE'] = model_size
     
     if args.predict:    
         model = get_model(config, weights)
-        resolve(model, np.random.rand(1,200,200,3))
+        # resolve(model, np.random.rand(1,200,200,3))
     
     # setup folder and path
-#     save_dir = f'results/{args.model}'
-#     os.makedirs(save_dir, exist_ok=True)
-    border = args.scale
+    #     save_dir = f'results/{args.model}'
+    #     os.makedirs(save_dir, exist_ok=True)
+    
+    border = config['SCALE']
     
     test_results = OrderedDict()
     for metric in ['psnr', 'ssim', 'lpips', 'niqe', 'timing']:
@@ -155,7 +142,7 @@ def main():
 def get_model(config, model_weights):
     trainer = Trainer(config=config)
     model = trainer.generator
-    model.load_weights(model_weights)
+    model.load_weights(model_weights, by_name=False, skip_mismatch=False)
     return model
     
             

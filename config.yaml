@@ -1,14 +1,14 @@
 #---- GENERAL
 MODE: 'GAN'
-HP_SEARCH: True
-DISTILLATION: 'BRKD'
+HP_SEARCH: False
+DISTILLATION: 'None'
 DISC_DISTILLATION: False
-CHECKPOINT: True
+CHECKPOINT: False
 
-MODEL_NAME: 'tiny_brkd_64'
-MODEL_SIZE: 'tiny'
+MODEL_NAME: 'small_ablation_3_batchnorm_new'
+MODEL_SIZE: 'small'
 
-PSNR_MODEL: 'best_tiny_64'
+PSNR_MODEL: 'pre_generator_small_ablation_3_batchnorm'
 
 TEACHER_NAME: 'gan_generator_gridsearch_2022-07-26_16_43_06.2346946.h5'
 TEACHER_SIZE: 'small'
@@ -22,7 +22,7 @@ VERBOSE: True
 
 #---- PATHS
 ROOT_DIR: './'
-DATA_DIR: 'dataset/div2k/'
+DATA_DIR: '../sr-edge/dataset/div2k/'
 WEIGHTS_DIR: 'weights/srgan/'
 LOG_DIR: 'log/'
 HP_SEARCH_DIR: 'grid_search/'
@@ -56,7 +56,7 @@ small:
     FILTERS: 64
     BATCH_NORM: False
     UPSAMPLING: 'TransposeConv'
-    ACTIVATION: 'relu'
+    ACTIVATION: 'prelu'
     DIST_LAYERS: [8]
     DISC_FILTERS: [32,8,4]
     DISC_BOTTLENECK: 'Flatten'
@@ -108,7 +108,7 @@ PSNR:
 GAN:
     METRIC: 'LPIPS'
     OUT_LOSS: 'MAE'
-    LR: 1e-4
+    LR: 1e-5
     SCHEDULER: 'Step'
     EXP_DECAY: 0.01
     LIN_DECAY: 0.1
