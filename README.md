@@ -1,3 +1,6 @@
+[![arXiv](http://img.shields.io/badge/arXiv-2001.09136-B31B1B.svg)](https://arxiv.org/abs/2209.03355)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # EdgeSRGAN
 
 [Generative Adversarial Super-Resolution at the Edge with Knowledge Distillation](https://arxiv.org/abs/2209.03355)
