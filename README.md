@@ -27,20 +27,30 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-Configuration
+### Configuration
+To set all the training/testing parameters modify the configuration file:
 ```
 nano config.yaml
 ```
 
-Training
+### Training
+Run the following command to train EdgeSRGAN on DIV2K:
 ```
 python main.py
 ```
 
-Test
+### Test
+Run the following command to test EdgeSRGAN on all the included SISR test datasets:
 ```
 sh test.sh
 ```
+
+### Weights
+Pretrained weights are available at this link.
+
+* `srgan.h5`: float32 TF weights
+* `srgan.tflite`: float16 TFLite model for inference on CPU
+* `srgan_edgetpu.tflite`: int8 TFLite model for inference on Coral EdgeTPU
 
 ## Examples
 <p>
