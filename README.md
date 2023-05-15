@@ -46,11 +46,11 @@ sh test.sh
 ```
 
 ### Weights
-Pretrained weights are available at this link.
+Pretrained weights are available at [this link](https://drive.google.com/drive/folders/1E21iZ2apadpS--zh8PHRCM4DVuIKdOOJ?usp=sharing).
 
 * `edgesrgan.h5`: float32 TF weights
 * `edgesrgan.tflite`: float16 TFLite model for inference on CPU
-* `edgesrgan_edgetpu.tflite`: int8 TFLite model for inference on Coral EdgeTPU
+* `edgesrgan_int8.tflite`: int8 TFLite model for inference on Coral EdgeTPU
 
 ## Examples
 <p>
