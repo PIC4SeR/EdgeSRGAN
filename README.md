@@ -2,51 +2,43 @@
 
 [Generative Adversarial Super-Resolution at the Edge with Knowledge Distillation](https://arxiv.org/abs/2209.03355)
 
-[REPOSITORY UNDER CONSTRUCTION]
-Enjoy the paper while we work on completing the README 👨🏻‍💻
+<img src="figures/results.png" alt= “Results” width="575">
 
-## Getting started
+## Abstract
+Single-Image Super-Resolution can support robotic tasks in environments where a reliable visual stream is required to monitor the mission, handle teleoperation or study relevant visual details. In this work, we propose an efficient Generative Adversarial Network model for real-time Super-Resolution, called EdgeSRGAN. We adopt a tailored architecture of the original SRGAN and model quantization to boost the execution on CPU and Edge TPU devices, achieving up to 200 fps inference. We further optimize our model by distilling its knowledge to a smaller version of the network and obtain remarkable improvements compared to the standard training approach. Our experiments show that our fast and lightweight model preserves considerably satisfying image quality compared to heavier state-of-the-art models. Finally, we conduct experiments on image transmission with bandwidth degradation to highlight the advantages of the proposed system for mobile robotic applications.
 
-```
-python main.py
-```
+<img src="figures/kd.png" alt= “KD” width="1000">
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-![KD](https://github.com/PIC4SeR/EdgeSRGAN/blob/master/figures/kd.png?raw=true)
-![Results](https://github.com/PIC4SeR/EdgeSRGAN/blob/master/figures/results.png?raw=true)
-![Samples](https://github.com/PIC4SeR/EdgeSRGAN/blob/master/figures/samples.png?raw=true)
-
+This repository allows to train and test EdgeSRGAN on different Single Image Super-Resolution datasets using adversarial training combined with feature-wise Knowledge Distillation.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+We suggest to use a virtual environment (conda, venv, ...)
+```
+git clone git@github.com:PIC4SeR/EdgeSRGAN.git
+pip install -r requirements.txt
+```
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Training
+```
+git clone git@github.com:PIC4SeR/EdgeSRGAN.git
+pip install -r requirements.txt
+```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Examples
+<img src="figures/samples.png?raw=True" alt= “Examples” width="1000">
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Acknowledgments
+This repository is intended for research scopes. If you use it for your research, please cite our paper using the following BibTeX:
+```
+@article{angarano2023generative,
+title = {Generative Adversarial Super-Resolution at the edge with knowledge distillation},
+journal = {Engineering Applications of Artificial Intelligence},
+volume = {123},
+pages = {106407},
+year = {2023},
+issn = {0952-1976},
+author = {Simone Angarano and Francesco Salvetti and Mauro Martini and Marcello Chiaberge}}
+```
+We would like to thank the Interdepartmental Center for Service Robotics [PIC4SeR](https://pic4ser.polito.it), Politecnico di Torino.
