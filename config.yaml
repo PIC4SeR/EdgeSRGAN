@@ -24,7 +24,7 @@ VERBOSE: True
 ROOT_DIR: './'
 DATA_DIR: '../sr-edge/dataset/div2k/'
 WEIGHTS_DIR: 'weights/srgan/'
-LOG_DIR: 'log/'
+LOG_DIR: 'logs/'
 HP_SEARCH_DIR: 'grid_search/'
 
 

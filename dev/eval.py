@@ -23,8 +23,16 @@ from utils.tools import read_yaml, Logger
 from utils.train import Trainer
 from utils.niqe import niqe as calculate_niqe
 from lpips import LPIPS, im2tensor
+from utils.dev.excellogger import Logger as ExcelLogger
+from utils.dev.excellogger import Column
 
+SPREADSHEET = "1x0rL1QPW0bFAZK9VTtW1aS_FDdyv--Ku7ihegmzYGAg"
+SHEET = "Results"
+key_json = "utils/excel_key.json"
+ROW_BASE = 0
+COLUMN_BASE = 18
 
+DATASETS = ['Set5', 'Set14', 'B100', 'Manga109', 'Urban100']
 
 def main():
     parser = argparse.ArgumentParser()
@@ -37,18 +45,21 @@ def main():
                         help='input ground-truth test image folder')
     parser.add_argument('--config', default='config.yaml', type=str, help='Config path')
     parser.add_argument('--predict', help='Predict', default=True, action=argparse.BooleanOptionalAction)
-    parser.add_argument('--logfile', default='result_log.txt', type=str, help='Log file path')
+    parser.add_argument('--excel_row', help='Excel row', default=3, type=int)
+    parser.add_argument('--excel', help='Excel', default=True, action=argparse.BooleanOptionalAction)
     
     args = parser.parse_args()
- 
+    
+    if args.excel:
+        excel = ExcelLogger(SPREADSHEET, key_json)
+    
     DATASET = args.dataset_hr.split('/')[-2]
     print(f"\n\nTesting on {DATASET}")
     
-    logger = Logger(args.logfile)
-    
+    logger = Logger('result_log.txt')
     calculate_lpips = LPIPS(net='alex', verbose=False).cuda()
     
-    config = read_yaml(args.config)
+    config = read_yaml('config.yaml')
 
     weights = f'weights/srgan/{args.model}'
       
@@ -56,18 +67,18 @@ def main():
     
     if args.predict:    
         model = get_model(config, weights)
-#         resolve(model, np.random.rand(1,200,200,3))
+        # resolve(model, np.random.rand(1,200,200,3))
     
-#     setup folder and path
-#         save_dir = f'results/{args.model}'
-#         os.makedirs(save_dir, exist_ok=True)
+    # setup folder and path
+    #     save_dir = f'results/{args.model}'
+    #     os.makedirs(save_dir, exist_ok=True)
     
     border = config['SCALE']
     
     test_results = OrderedDict()
     for metric in ['psnr', 'ssim', 'lpips', 'niqe', 'timing']:
         test_results[metric] = []
-
+    
     for idx, path in enumerate(sorted(glob.glob(os.path.join(args.dataset_hr, '*')))):
         # read image
         imgname, img_lr, img_hr = get_image_pair(path, args.dataset_lr, args.scale)  # image to HWC-BGR, float32
@@ -121,6 +132,12 @@ def main():
     print('Average timing: {:.4f} ms'.format(ave_timing))
     text = '{:s}: PSNR/SSIM/LPIPS/NIQE {:.4f} dB; {:.4f}; {:.4f}; {:.4f}'.format(DATASET, ave_psnr, ave_ssim, ave_lpips, ave_niqe)
     logger.save_log(text)
+    
+    if args.excel:
+        excel.write(f'{args.model} {args.train_type}', SHEET, ROW_BASE + args.excel_row, Column('A'))
+        column = Column('B') + COLUMN_BASE + DATASETS.index(DATASET)*4
+        excel.write([ave_psnr, ave_ssim, ave_lpips, ave_niqe], SHEET, ROW_BASE + args.excel_row, column, None, column+3)
+    
             
 def get_model(config, model_weights):
     trainer = Trainer(config=config)
